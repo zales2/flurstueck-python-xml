@@ -32,7 +32,7 @@ class Flurstueck():
             'Numer okręgu': '', 
             'Numer powiatu': ''}
 
-    def search_xml(self):
+    def search_in_file(self):
         dictNames = iter(list(self.dict))
         if self.type == 'json':
             for attribute, value in self.jsonfile.items():
