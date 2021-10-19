@@ -1,26 +1,34 @@
 from flurstueck import *
+from jsonType import JsonType
+from aaaType import AaaType
+from nasType import NasType
 
-file_list = os.listdir(PATH)
-while(True):
-    filenameInput = input('Podaj nazwę pliku wraz z jego rozszerzniem: ')
-    if filenameInput in file_list:
-        break
-    else:
-        print('Zła nazwa pliku, spróbuj ponownie!')
+
+types = { 'nas': NasType, 
+    'aaa': AaaType, 
+    'json': JsonType } # add new type
 
 while(True):
     filetypeInput = input( 'Podaj format danych (nas / aaa / json): ')
-    if filetypeInput in ['nas', 'aaa', 'json']:
-        break
+    if filetypeInput in types:
+        if issubclass(types[filetypeInput], FileParent):
+            file_list = os.listdir(PATH)
+            while(True):
+                filenameInput = input('Podaj nazwę pliku wraz z jego rozszerzniem: ')
+                if filenameInput in file_list:
+                    fluerstueck = types[filetypeInput](filenameInput)
+                    break
+                else:
+                    
+                    print('Zła nazwa pliku, spróbuj ponownie!')
+            break
+        
+        else:
+            # other type than file
+            # fluerstueck = types[filetypeInput](some new parameter/parameters)
+            break
     else:
         print('Nieprawidłowy format, spróbuj ponownie!')
 
-if filetypeInput == 'nas':
-    fluerstueck = NasType( filenameInput )
-elif filetypeInput == 'aaa':
-    fluerstueck = AaaType( filenameInput )
-elif filetypeInput == 'json':
-    fluerstueck = JsonType( filenameInput )
-
-fluerstueck.search_in_file()
+fluerstueck.get_data()
 fluerstueck.get_dict()
